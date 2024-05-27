@@ -10,7 +10,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import question.LastResponse;
 
-import static net.serenitybdd.screenplay.GivenWhenThen.*;
+import static net.serenitybdd.screenplay.GivenWhenThen.givenThat;
+import static net.serenitybdd.screenplay.GivenWhenThen.then;
+import static net.serenitybdd.screenplay.GivenWhenThen.seeThat/*matchers.ConsequenceMatchers.seeThat*/;
 import static org.hamcrest.Matchers.is;
 
 @RunWith(SerenityRunner.class)
@@ -37,41 +39,44 @@ public class BookingApiTests {
         token = LastResponse.field("token").answeredBy(anna);
 
         // Step 2: Create Bookings
-        anna.attemptsTo(CreateBooking.withDetails("Pedro", "Gutierrez", 100, true, "2024-03-01", "2024-04-01", "Comics"));
+        anna.attemptsTo(CreateBooking.withDetails("John", "Doe"));
         then(anna).should(seeThat(LastResponse.statusCode(), is(200)));
-        then(anna).should(seeThat(LastResponse.field("booking.firstname"), is("Pedro")));
+        then(anna).should(seeThat(LastResponse.field("booking.firstname"), is("John")));
         bookingId1 = Integer.parseInt(LastResponse.field("bookingid").answeredBy(anna));
 
-        anna.attemptsTo(CreateBooking.withDetails("Javier", "Jaramillo", 356, true, "2024-03-15", "2024-04-15", "Terror"));
+        anna.attemptsTo(CreateBooking.withDetails("Jane", "Smith"));
         then(anna).should(seeThat(LastResponse.statusCode(), is(200)));
-        then(anna).should(seeThat(LastResponse.field("booking.firstname"), is("Javier")));
+        then(anna).should(seeThat(LastResponse.field("booking.firstname"), is("Jane")));
         bookingId2 = Integer.parseInt(LastResponse.field("bookingid").answeredBy(anna));
 
         // Step 3: Get Bookings
         anna.attemptsTo(GetBooking.byId(bookingId1));
         then(anna).should(seeThat(LastResponse.statusCode(), is(200)));
-        then(anna).should(seeThat(LastResponse.field("firstname"), is("Pedro")));
+        then(anna).should(seeThat(LastResponse.field("firstname"), is("John")));
 
         anna.attemptsTo(GetBooking.byId(bookingId2));
         then(anna).should(seeThat(LastResponse.statusCode(), is(200)));
-        then(anna).should(seeThat(LastResponse.field("firstname"), is("Javier")));
+        then(anna).should(seeThat(LastResponse.field("firstname"), is("Jane")));
 
         // Step 4: Update Bookings
-        anna.attemptsTo(UpdateBooking.withDetails(bookingId1, "Jose", "Gutierrez", 100, true, "2023-05-12", "2023-06-28", "Comics", token));
+        anna.attemptsTo(UpdateBooking.withDetails(bookingId1, "John", "DoeUpdated", token));
         then(anna).should(seeThat(LastResponse.statusCode(), is(200)));
-        then(anna).should(seeThat(LastResponse.field("firstname"), is("Jose")));
+        then(anna).should(seeThat(LastResponse.field("firstname"), is("John")));
 
-        anna.attemptsTo(UpdateBooking.withDetails(bookingId2, "Javier", "Mora", 356, true, "2023-06-20", "2023-07-20", "Terror", token));
+        anna.attemptsTo(UpdateBooking.withDetails(bookingId2, "Jane", "SmithUpdated", token));
         then(anna).should(seeThat(LastResponse.statusCode(), is(200)));
-        then(anna).should(seeThat(LastResponse.field("firstname"), is("Javier")));
+        then(anna).should(seeThat(LastResponse.field("firstname"), is("Jane")));
 
         // Step 5: Delete Bookings
         anna.attemptsTo(DeleteBooking.byId(bookingId1, token));
         then(anna).should(seeThat(LastResponse.statusCode(), is(201)));
+        then(anna).should(seeThat(LastResponse.body().asString(), is("Created")));
 
         anna.attemptsTo(DeleteBooking.byId(bookingId2, token));
         then(anna).should(seeThat(LastResponse.statusCode(), is(201)));
+        then(anna).should(seeThat(LastResponse.body().asString(), is("Created")));
     }
 }
+
 
 
