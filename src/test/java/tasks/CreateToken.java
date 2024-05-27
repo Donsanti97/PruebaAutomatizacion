@@ -6,6 +6,8 @@ import net.serenitybdd.screenplay.rest.interactions.Post;
 import net.thucydides.core.annotations.Step;
 import io.restassured.http.ContentType;
 
+import static net.serenitybdd.screenplay.Tasks.instrumented;
+
 public class CreateToken implements Task {
 
     private final String username;
@@ -16,7 +18,7 @@ public class CreateToken implements Task {
         this.password = password;
     }
 
-    @Step("{0} creates a token with #username and #password")
+    @Step("{0} requests an authentication token")
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
                 Post.to("/auth")
@@ -28,8 +30,9 @@ public class CreateToken implements Task {
     }
 
     public static CreateToken withCredentials(String username, String password) {
-        return new CreateToken(username, password);
+        return instrumented(CreateToken.class, username, password);
     }
 }
+
 
 
