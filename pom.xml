@@ -11,8 +11,8 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <serenity.version>2.3.12</serenity.version>
-        <serenity.maven.version>2.3.12</serenity.maven.version>
+        <serenity.version>4.0.0</serenity.version>
+        <serenity.maven.version>4.0.0</serenity.maven.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -60,7 +60,7 @@
         <dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-rest-assured</artifactId>
-            <version>3.1.20</version>
+            <version>${serenity.version}</version>
         </dependency>
 
 
@@ -87,7 +87,7 @@
         <dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-ensure</artifactId>
-            <version>2.3.12</version>
+            <version>${serenity.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -109,14 +109,14 @@
         <!-- https://mvnrepository.com/artifact/net.serenity-bdd/serenity-cucumber -->
         <dependency>
             <groupId>net.serenity-bdd</groupId>
-            <artifactId>serenity-cucumber6</artifactId>
-            <version>2.4.0</version>
+            <artifactId>serenity-cucumber</artifactId>
+            <version>${serenity.version}</version>
         </dependency>
 
         <dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-single-page-report</artifactId>
-            <version>2.1.2</version>
+            <version>${serenity.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-junit -->
         <dependency>
@@ -164,6 +164,24 @@
             <version>1.18.32</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-model</artifactId>
+            <version>3.7.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-model</artifactId>
+            <version>3.7.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-core</artifactId>
+            <version>3.7.1</version>
+            <scope>test</scope>
+        </dependency>
 
 
     </dependencies>
@@ -189,9 +207,6 @@
                         <include>**/features/**/*.java</include>
                         <include>**/*Test*.java</include>
                     </includes>
-                    <systemPropertyVariables>
-                        <restapi.baseurl>${restapi.baseurl}</restapi.baseurl>
-                    </systemPropertyVariables>
                 </configuration>
                 <executions>
                     <execution>
